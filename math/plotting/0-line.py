@@ -6,7 +6,10 @@ import matplotlib.pyplot as plt
 def line():
     y = np.arange(0, 11) ** 3
     
-    # plot save
-    x = np.arange(0, 11)
-    plt.plot(x, y, 'r-')
+    plt.figure()
+    
+    plt.plot(y, 'r-')
+    
+    plt.xlim([0, 10])
+    
     plt.savefig('0-line.png');
