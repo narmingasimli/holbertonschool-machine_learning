@@ -1,20 +1,24 @@
 #!/usr/bin/env python3
 
 def mat_mul(mat1, mat2):
+    # Check if matrices are valid and can be multiplied
     if not mat1 or not mat2:
         return None
-        
-    cols1 = len(mat1[0])
-    rows2 = len(mat2)
-
-    if cols1 != rows2:
+    if len(mat1[0]) != len(mat2):
         return None
 
-    result_matrix = [[0 for _ in range(len(mat2[0]))] for _ in range(len(mat1))]
+    # Get dimensions
+    rows1 = len(mat1)
+    cols1 = len(mat1[0])
+    cols2 = len(mat2[0])
 
-    for i in range(len(mat1)):
-        for j in range(len(mat2[0])):
+    # Initialize result matrix with zeros
+    result = [[0 for _ in range(cols2)] for _ in range(rows1)]
+
+    # Perform multiplication
+    for i in range(rows1):
+        for j in range(cols2):
             for k in range(cols1):
-                result_matrix[i][j] += mat1[i][k] * mat2[k][j]
+                result[i][j] += mat1[i][k] * mat2[k][j]
 
-    return result_matrix
+    return result
