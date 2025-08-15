@@ -2,8 +2,11 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-def scatter():
 
+def scatter():
+    """
+    Plots code.
+    """
     mean = [69, 0]
     cov = [[15, 8], [8, 15]]
     np.random.seed(5)
@@ -11,12 +14,12 @@ def scatter():
     y += 180
     plt.figure(figsize=(6.4, 4.8))
 
-    # your code here
     plt.scatter(x, y, color='magenta')
     plt.xlabel('Height (in)')
     plt.ylabel('Weight (lbs)')
     plt.title("Men's Height vs Weight")
     plt.show()
+
 
 if __name__ == '__main__':
     scatter()
