@@ -1,4 +1,7 @@
 #!/usr/bin/env python3
+"""
+Plots the exponential decay of C-14 with a logarithmic y-axis.
+"""
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -13,7 +16,6 @@ def change_scale():
     y = np.exp((r / t) * x)
     plt.figure(figsize=(6.4, 4.8))
 
-    # your code here
     plt.plot(x, y)
     plt.xlabel('Time (years)')
     plt.ylabel('Fraction Remaining')
