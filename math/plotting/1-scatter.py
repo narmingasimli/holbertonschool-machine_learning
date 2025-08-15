@@ -1,11 +1,14 @@
 #!/usr/bin/env python3
+"""
+Plots a scatter plot of random data.
+"""
 import numpy as np
 import matplotlib.pyplot as plt
 
 
 def scatter():
     """
-    Plots code.
+    Plots a scatter plot of random data.
     """
     mean = [69, 0]
     cov = [[15, 8], [8, 15]]
