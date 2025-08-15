@@ -1,20 +1,12 @@
 #!/usr/bin/env python3
 """
-Plots five different graphs in a single figure using a 3x2 grid layout.
+Plots five different graphs code.
 """
 import numpy as np
 import matplotlib.pyplot as plt
 
 
 def all_in_one():
-    """
-    Generates and displays a figure containing five subplots:
-    1. A line graph of y = x^3
-    2. A scatter plot of Men's Height vs Weight
-    3. A line graph of Exponential Decay of C-14 (logarithmic y-axis)
-    4. A line graph of Exponential Decay of Radioactive Elements (C-14 and Ra-226)
-    5. A histogram of student grades
-    """
     x0 = np.arange(0, 11)
     y0 = x0 ** 3
 
