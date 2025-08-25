@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
-"""Decision tree code"""
+"""Decision tree implementation with Node, Leaf, and tree structure."""
 import numpy as np
 
 
 class Node:
+    """Tree node that splits data based on a feature and threshold."""
 
     def __init__(
         self,
@@ -39,7 +40,7 @@ class Node:
 
 
 class Leaf(Node):
-
+    
     def __init__(self, value, depth=None):
         super().__init__()
         self.value = value
@@ -51,7 +52,8 @@ class Leaf(Node):
 
 
 class Decision_Tree:
-     def __init__(
+
+    def __init__(
         self,
         max_depth=10,
         min_pop=1,
