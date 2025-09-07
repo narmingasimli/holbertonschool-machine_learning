@@ -1,8 +1,11 @@
 #!/usr/bin/env python3
 
+
 """Classification"""
 
+
 import numpy as np
+
 
 class Neuron:
     """Neuron Class"""
