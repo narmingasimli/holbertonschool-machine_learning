@@ -64,7 +64,6 @@ class Neuron:
         self.__W = self.__W - (alpha * dW)
         self.__b = self.__b - (alpha * db)
 
-
     def train(self, X, Y, iterations=5000, alpha=0.05):
         """Train The Model"""
         if type(iterations) is not int:
@@ -79,3 +78,10 @@ class Neuron:
             A = self.forward_prop(X)
             self.gradient_descent(X, Y, A, alpha)
         return self.evaluate(X, Y)
+
+
+    def save(self, filename):
+        """Save the neuron to a file"""
+        # Burada hər hansı bir kod yazılmalıdırsa, onu əlavə edə bilərsiniz.
+        # İndilik boş saxlanılıb.
+        pass
