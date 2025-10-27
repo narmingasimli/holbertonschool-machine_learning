@@ -2,6 +2,8 @@
 """Object Detection"""
 from tensorflow import keras as K
 import numpy as np
+import os
+import cv2
 
 
 class Yolo:
@@ -79,3 +81,78 @@ class Yolo:
         box_scores = np.concatenate(box_scores, axis=0)
 
         return filtered_boxes, box_classes, box_scores
+
+    def non_max_suppression(self, filtered_boxes, box_classes, box_scores):
+        """Non-Max Suppression (NMS)"""
+        box_predictions = []
+        predicted_box_classes = []
+        predicted_box_scores = []
+
+        def iou(box, boxes):
+            """IOU"""
+            x1, y1, x2, y2 = box
+            x1s, y1s, x2s, y2s = (boxes[:, 0], boxes[:, 1],
+                                  boxes[:, 2], boxes[:, 3])
+
+            inter_x1 = np.maximum(x1, x1s)
+            inter_y1 = np.maximum(y1, y1s)
+            inter_x2 = np.minimum(x2, x2s)
+            inter_y2 = np.minimum(y2, y2s)
+            inter_area = (np.maximum(0, inter_x2 - inter_x1) *
+                          np.maximum(0, inter_y2 - inter_y1))
+
+            box_area = (x2 - x1) * (y2 - y1)
+            boxes_area = (x2s - x1s) * (y2s - y1s)
+
+            union_area = box_area + boxes_area - inter_area
+            iou = inter_area / union_area
+
+            return iou
+
+        unique_classes = np.unique(box_classes)
+
+        for cls in unique_classes:
+            cls_mask = box_classes == cls
+            cls_boxes = filtered_boxes[cls_mask]
+            cls_scores = box_scores[cls_mask]
+
+            sorted_idx = np.argsort(cls_scores)[::-1]
+            cls_boxes = cls_boxes[sorted_idx]
+            cls_scores = cls_scores[sorted_idx]
+
+            while len(cls_boxes) > 0:
+                box_predictions.append(cls_boxes[0])
+                predicted_box_scores.append(cls_scores[0])
+                predicted_box_classes.append(cls)
+
+                if len(cls_boxes) == 1:
+                    break
+
+                ious = iou(cls_boxes[0], cls_boxes[1:])
+
+                mask = ious < self.nms_t
+                cls_boxes = cls_boxes[1:][mask]
+                cls_scores = cls_scores[1:][mask]
+
+        box_predictions = np.array(box_predictions)
+        predicted_box_classes = np.array(predicted_box_classes)
+        predicted_box_scores = np.array(predicted_box_scores)
+
+        return box_predictions, predicted_box_classes, predicted_box_scores
+
+    @staticmethod
+    def load_images(folder_path):
+        """Folder Path"""
+        images = []
+        image_paths = []
+
+        for filename in os.listdir(folder_path):
+            path = os.path.join(folder_path, filename)
+
+            if path.lower().endswith(('.jpg', '.jpeg', '.png')):
+                image = cv2.imread(path)
+                if image is not None:
+                    images.append(image)
+                    image_paths.append(path)
+
+        return images, image_paths
