@@ -1,27 +1,26 @@
 #!/usr/bin/env python3
-"""Comment of Function"""
+"""Dimensionality Reduction algorithms implementations."""
 import numpy as np
 
 
 def pca(X, var=0.95):
-    """Principal Component Analysis"""
-    x_centered = X - np.mean(X, axis=0)
+    """
+    Compute the PCA, to get var% of the var explain
+    :param X: The X to decompose
+    :param var: The var threshold
+    :return: THe W matrix
+    """
+    U, S, Vt = np.linalg.svd(X)
 
-    cov = np.dot(x_centered.T, x_centered) / x_centered.shape[0]
+    total_var_explain = 0
+    idx = 0
 
-    eigenvalues, eigenvectors = np.linalg.eigh(cov)
+    normal_S = S / np.sum(S)
 
-    idx = np.argsort(eigenvalues)[::-1]
-    eigenvalues = eigenvalues[idx]
-    eigenvectors = eigenvectors[:, idx]
+    for var_explain in normal_S:
+        total_var_explain += var_explain
+        idx += 1
+        if total_var_explain >= var:
+            break
 
-    total_var = np.sum(eigenvalues)
-    cumulative_var = np.cumsum(eigenvalues) / total_var
-
-    k = np.argmax(cumulative_var >= var) + 1
-
-    w = eigenvectors[:, :k]
-    
-    X_transformed = np.dot(x_centered, w)
-
-    return X_transformed, w
+    return Vt.T[..., :idx]
