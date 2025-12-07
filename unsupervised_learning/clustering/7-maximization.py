@@ -1,4 +1,3 @@
-
 #!/usr/bin/env python3
 """Comment of Function"""
 import numpy as np
@@ -27,4 +26,3 @@ def maximization(X, g):
         S[i] = (g[i, :, np.newaxis, np.newaxis] * diff[:, :, np.newaxis] *
                 diff[:, np.newaxis, :]).sum(axis=0) / total_prob[i]
     return pi, m, S
-
